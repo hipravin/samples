@@ -32,5 +32,6 @@
 
     <modules>
         <module>plain-java</module>
+        <module>spring</module>
     </modules>
 </project>
