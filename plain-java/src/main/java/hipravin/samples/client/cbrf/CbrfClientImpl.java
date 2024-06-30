@@ -6,10 +6,14 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+import java.util.function.Supplier;
 
 public class CbrfClientImpl implements CbrfClient {
 
@@ -44,6 +48,7 @@ public class CbrfClientImpl implements CbrfClient {
 
     private HttpRequest dailyCurrenciesGetRequest() {
         return HttpRequest.newBuilder().uri(URI.create(baseUrl + "/daily_json.js"))
+                .header("Content-Type", "application/json")
                 .build();
     }
 
@@ -58,5 +63,28 @@ public class CbrfClientImpl implements CbrfClient {
         mapper.disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE);
 
         return mapper;
+    }
+
+    private HttpResponse.BodyHandler<String> currencyBodyHandler() {
+        return (responseInfo) -> {
+            System.out.println("Body handler 1: " + Thread.currentThread());
+            return HttpResponse.BodySubscribers.ofString(StandardCharsets.UTF_8);
+        };
+    }
+
+    public static <W> HttpResponse.BodySubscriber<Supplier<W>> asJSON(Class<W> targetType) {
+        HttpResponse.BodySubscriber<InputStream> upstream = HttpResponse.BodySubscribers.ofInputStream();
+
+        HttpResponse.BodySubscriber<Supplier<W>> downstream = HttpResponse.BodySubscribers.mapping(
+                upstream,
+                (InputStream is) -> () -> {
+                    try (InputStream stream = is) {
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        return objectMapper.readValue(stream, targetType);
+                    } catch (IOException e) {
+                        throw new UncheckedIOException(e);
+                    }
+                });
+        return downstream;
     }
 }
