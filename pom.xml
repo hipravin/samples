@@ -19,6 +19,7 @@
         <junit.version>5.10.2</junit.version>
         <javafaker.version>1.0.2</javafaker.version>
         <mockwebserver.version>4.12.0</mockwebserver.version>
+        <jmh.version>1.36</jmh.version>
     </properties>
 
     <dependencyManagement>
@@ -27,6 +28,18 @@
                 <groupId>com.github.javafaker</groupId>
                 <artifactId>javafaker</artifactId>
                 <version>${javafaker.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.openjdk.jmh</groupId>
+                <artifactId>jmh-core</artifactId>
+                <version>${jmh.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.openjdk.jmh</groupId>
+                <artifactId>jmh-generator-annprocess</artifactId>
+                <version>${jmh.version}</version>
             </dependency>
 
             <dependency>

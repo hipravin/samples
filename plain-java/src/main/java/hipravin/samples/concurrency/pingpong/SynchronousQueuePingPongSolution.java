@@ -7,11 +7,11 @@ import java.util.concurrent.*;
  * They are well suited for handoff designs, in which an object running in one thread must sync up with
  * an object running in another thread in order to hand it some information, event, or task
  */
-public class SynchronousQueueSolution {
+public class SynchronousQueuePingPongSolution {
     private final SynchronousQueue<String> handOffQueue = new SynchronousQueue<>();
 
     private void ping() throws InterruptedException {
-        while (!Thread.currentThread().isInterrupted()) {
+        while (!Thread.interrupted()) {
             String message = handOffQueue.take();
             System.out.println(message + " " + Thread.currentThread().getName());
             handOffQueue.put("pong");
@@ -21,7 +21,7 @@ public class SynchronousQueueSolution {
     private void pong() throws InterruptedException {
         handOffQueue.put("ping");
 
-        while (!Thread.currentThread().isInterrupted()) {
+        while (!Thread.interrupted()) {
             String message = handOffQueue.take();
             System.out.println(message + " " + Thread.currentThread().getName());
             handOffQueue.put("ping");
@@ -48,12 +48,11 @@ public class SynchronousQueueSolution {
     }
 
     public static void main(String[] args) {
-        var solution = new SynchronousQueueSolution();
+        var solution = new SynchronousQueuePingPongSolution();
         ExecutorService executor = Executors.newFixedThreadPool(2);
 
         var pingFuture = CompletableFuture.runAsync(solution.awaitAndPing(), executor);
         var pongFuture = CompletableFuture.runAsync(solution.awaitAndPong(), executor);
-
         executor.shutdown();
         try {
             if(!executor.awaitTermination(100, TimeUnit.MILLISECONDS)) {
