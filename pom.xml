@@ -20,10 +20,25 @@
         <javafaker.version>1.0.2</javafaker.version>
         <mockwebserver.version>4.12.0</mockwebserver.version>
         <jmh.version>1.36</jmh.version>
+        <snakeyaml.version>2.2</snakeyaml.version>
+        <jackson-dataformat-yaml.version>2.17.2</jackson-dataformat-yaml.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-yaml</artifactId>
+                <version>${jackson-dataformat-yaml.version}</version>
+            </dependency>
+
+<!--            https://bitbucket.org/snakeyaml/snakeyaml/wiki/Documentation-->
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>${snakeyaml.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.github.javafaker</groupId>
                 <artifactId>javafaker</artifactId>

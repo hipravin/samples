@@ -15,8 +15,6 @@ public record Currency (
         @JsonProperty("Value") BigDecimal value,
         @JsonProperty("Previous") BigDecimal previous
 ) {}
-
-//TODO:  adjust types
 /*
         {
             "ID": "R01010",

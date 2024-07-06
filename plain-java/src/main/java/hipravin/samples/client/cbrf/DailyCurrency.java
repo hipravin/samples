@@ -16,7 +16,6 @@ public record DailyCurrency (
         @JsonProperty("Timestamp") String timestamp,
         @JsonProperty("Valute") Map<String, Currency> currencies
 ) {}
-//TODO: adjust types properly
 /*
 
 {
