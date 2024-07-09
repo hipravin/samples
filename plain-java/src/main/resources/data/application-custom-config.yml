@@ -1,0 +1,4 @@
+name: hipravin-samples
+network:
+  port: 8080
+  host: localhost120
