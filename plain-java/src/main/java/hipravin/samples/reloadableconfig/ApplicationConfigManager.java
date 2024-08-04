@@ -10,9 +10,6 @@ import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.function.Supplier;
 
 public class ApplicationConfigManager {
     private ObjectMapper yamlMapper;
@@ -56,7 +53,6 @@ public class ApplicationConfigManager {
 
     public <T> T loadYamlFromPath(Path configPath, Class<T> valueType) {
         try (BufferedReader reader = Files.newBufferedReader(configPath, StandardCharsets.UTF_8)) {
-            String fileContent = Files.readString(configPath);
             return yamlMapper.readValue(reader, valueType);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
