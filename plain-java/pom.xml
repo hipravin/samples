@@ -13,6 +13,8 @@
 
     <properties>
         <jackson.version>2.17.1</jackson.version>
+        <org.bouncycastle.version>1.78.1</org.bouncycastle.version>
+        <commons-lang3.version>3.14.0</commons-lang3.version>
     </properties>
 
     <dependencies>
@@ -51,12 +53,23 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.14.0</version>
+            <version>${commons-lang3.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>mockwebserver</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
+            <version>${org.bouncycastle.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpg-jdk18on</artifactId>
+            <version>${org.bouncycastle.version}</version>
         </dependency>
 
         <dependency>

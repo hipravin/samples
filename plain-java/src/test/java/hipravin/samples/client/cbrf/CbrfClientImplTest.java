@@ -61,7 +61,6 @@ class CbrfClientImplTest {
     }
 
     private static String loadFromClasspath(String fileName) {
-//        try (InputStream is = ClassLoader.getSystemResourceAsStream(fileName)) {
         try (InputStream is = ClassLoader.getSystemResourceAsStream(fileName)) {
             if (is != null) {
                 return new String(is.readAllBytes(), StandardCharsets.UTF_8);
