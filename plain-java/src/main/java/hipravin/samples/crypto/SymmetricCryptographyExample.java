@@ -4,8 +4,10 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.util.Comparator;
+import java.util.HexFormat;
 import java.util.Map;
-import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SymmetricCryptographyExample {
 
@@ -18,18 +20,19 @@ public class SymmetricCryptographyExample {
             "status", "1"
     );
 
+    private static final Map<String, String> callbackParamsHack = Map.of(
+            "checksum", "EAF2FB72CAB99FD5067F4BA493DD84F4D79C1589FDE8ED29622F0F07215AA972",
+            "mdOrder", "06cf5599-3f17-7c86-bdbc-bd7d00a8b38b",
+            "operation", "approved",
+            "orderNumber", "2003;status;1"
+    );
+
     public static void main(String[] args) throws Exception {
         String signedString = callbackParams.entrySet().stream()
-                .filter(entry -> !entry.getKey().equals("checksum"))
+                .filter(e -> !e.getKey().equals("checksum"))
                 .sorted(Map.Entry.comparingByKey(Comparator.naturalOrder()))
-                .collect(Collector.of(
-                        StringBuilder::new,
-                        (accumulator, element) -> accumulator
-                                .append(element.getKey()).append(";")
-                                .append(element.getValue()).append(";"),
-                        StringBuilder::append,
-                        StringBuilder::toString
-                ));
+                .flatMap(e -> Stream.of(e.getKey(), e.getValue()))
+                .collect(Collectors.joining(";","",";"));
 
         System.out.println(signedString);
 
@@ -53,7 +56,7 @@ public class SymmetricCryptographyExample {
         return hMacSHA256.doFinal(dataBytes);
     }
 
-    private static String bytesToHex(byte[] bytes) {
+    private static String bytesToHexOriginal(byte[] bytes) {
         final byte[] HEX_ARRAY = "0123456789ABCDEF".getBytes(StandardCharsets.US_ASCII);
         byte[] hexChars = new byte[bytes.length * 2];
         for (int j = 0; j < bytes.length; j++) {
@@ -62,5 +65,9 @@ public class SymmetricCryptographyExample {
             hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
         }
         return new String(hexChars, StandardCharsets.UTF_8);
+    }
+
+    private static String bytesToHex(byte[] bytes) {
+        return HexFormat.of().withUpperCase().formatHex(bytes);
     }
 }
