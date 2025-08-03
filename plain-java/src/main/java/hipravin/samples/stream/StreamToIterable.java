@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 /**
  * Stream is single use data structure thus doesn't implement iterable.
  * However, it provides exactly same .iterator() method.
+ * Stream doesn't implement Iterable: The main reason is Iterable also has a re-iterable semantic, while Stream is not.
  */
 public class StreamToIterable {
     public static void main(String[] args) {
