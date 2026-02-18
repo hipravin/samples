@@ -11,7 +11,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/api/v1/playground/")
-public class PlaygroundController {
+public  class PlaygroundController {
 
     @GetMapping("/runtime-exception")
     ResponseEntity<?> brokenService() {
