@@ -19,7 +19,7 @@
         <junit.version>5.10.2</junit.version>
         <javafaker.version>1.0.2</javafaker.version>
         <mockwebserver.version>4.12.0</mockwebserver.version>
-        <jmh.version>1.36</jmh.version>
+        <jmh.version>1.37</jmh.version>
         <snakeyaml.version>2.2</snakeyaml.version>
         <jackson-dataformat-yaml.version>2.17.2</jackson-dataformat-yaml.version>
     </properties>
@@ -61,6 +61,13 @@
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>
                 <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>5.20.0</version>
                 <scope>test</scope>
             </dependency>
 
